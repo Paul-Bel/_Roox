@@ -1,0 +1,31 @@
+.userContainer{
+  width: 77.14%;
+  max-height: 1028px;
+  background-color: #FFF;
+  padding: 13px 0 0 32px;
+  .header{
+    display: flex;
+    justify-content: space-around;
+  }
+  .title{
+    font-family: Roboto, serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.03em;
+    margin: 6px 12% 0px -8%;
+  }
+  .totalUsers{
+    font-family: Roboto, serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.03em;
+    display: flex;
+    justify-content: center;
+    margin: 10px -45% 0 0;
+
+  }
+}

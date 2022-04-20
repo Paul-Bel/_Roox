@@ -1,0 +1,50 @@
+.cardContainer {
+  background: #F3F3F3;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  margin: 14px 0 0 0;
+  max-width: 402px;
+  padding: 10px;
+  height: 55px;
+
+  li{
+    list-style-type: none;
+    font-family: Roboto, serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #A3A3A3;
+    height: 11px;
+
+
+    .dataUser{
+      font-family: Roboto, serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 11px;
+      line-height: 13px;
+      color: #000000;
+      padding-left: 11px;
+
+    }
+  }
+  & a{
+    font-family: Roboto, serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #4B51EF;
+    text-decoration: none;
+    display: block;
+    margin-top: 10.5%;
+    letter-spacing: 0.08em;
+  }
+  & ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+}

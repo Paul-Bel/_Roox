@@ -1,23 +1,23 @@
-div {
+.load {
+    margin: 50% auto 0 auto;
     display: flex;
-    width: 3.5em;
-    height: 3.5em;
-    border: 3px solid transparent;
+    width: 17.5em;
+    height: 17.5em;
+    border: 5px solid transparent;
     border-top-color: #3cefff;
     border-bottom-color: #3cefff;
     border-radius: 50%;
     animation: spin 1.5s linear infinite;
-}
-
-div:before {
-    content: '';
-    display: block;
-    margin: auto;
-    width: 0.75em;
-    height: 0.75em;
-    border: 3px solid #3cefff;
-    border-radius: 50%;
-    animation: pulse 1s alternate ease-in-out infinite;
+    &:before {
+        content: '';
+        display: block;
+        margin: auto;
+        width: 0.75em;
+        height: 0.75em;
+        border: 50px solid #3cefff;
+        border-radius: 50%;
+        animation: pulse 1s alternate ease-in-out infinite;
+    }
 }
 
 @keyframes spin {
