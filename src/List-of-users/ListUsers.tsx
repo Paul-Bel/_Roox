@@ -3,39 +3,46 @@ import {UserCard} from "../common/components/CardUsers/UserCard";
 import {Preloader} from "../common/Preloader/Preloader";
 import {useSelector} from "react-redux";
 import {AppStateType} from "../Redux/store";
-import {InfoUserType, openProfileAC, UsersStateType} from "../Redux/reducer";
+import {FlagType, InfoUserType, openProfileAC, setLoadAC, UsersStateType} from "../Redux/reducer";
 import {Button} from "../common/components/Button/Button";
 import {useAppDispatch} from "../Redux/hooks";
 import {UserProfile} from "../UserProfile/UserProfile";
-import React from "react";
+import React, {MouseEvent} from "react";
 
 export const ListUsers = () => {
     const distatch = useAppDispatch()
-    const state = useSelector<AppStateType, Array<UsersStateType>>(store => store.users.userData)
-    const loading = useSelector<AppStateType, boolean>(store => store.users.load)
-    const profile = useSelector<AppStateType, InfoUserType>(store => store.users.profileIsOpen)
-    const addEditButton = () => {
 
-        distatch(openProfileAC("Профиль пользоваетля"))
+    const state = useSelector<AppStateType, Array<UsersStateType>>(store => store.users.userData)
+    const loading = useSelector<AppStateType, FlagType>(store => store.users.load)
+    const profile = useSelector<AppStateType, InfoUserType>(store => store.users.profileIsOpen)
+    const editButton = profile === "Профиль пользоваетля" ? "0" : "-1"
+    const addEditButton = (id: number) => {
+        distatch(openProfileAC({profile: "Профиль пользоваетля", id}))
     }
-    const editButton = profile === "Профиль пользоваетля" ? "-1" : "0"
+    const onClickHandler = (e: React.SyntheticEvent ) => {
+        let target = e.target as HTMLInputElement;
+        if(target.id === "Button"){
+            distatch(setLoadAC((loading !== 'editProfile' ?'editProfile': 'loaded')))
+        }
+    }
     const usersCards = state?.map(user => {
         return <UserCard
             key={user.id} name={user.name} city={user.address.city} company={user.company.name}
-        callback={addEditButton}/>
+            id={user.id} callback={addEditButton}/>
     })
-    if(loading) {return <div className={style.userContainer}><Preloader/></div>}
+    if(loading === 'load') {return <div className={style.userContainer}><Preloader/></div>}
     return (
         <div className={style.userContainer}>
-            <header className={style.header}><label className={style.title}>{profile}</label>
-            <Button title={'Редактироввать'} width={'116.67px'} zIndex={editButton}/>
-
-
+            <header className={style.header} onClick={onClickHandler}><label className={style.title} id={"title"}>{profile}</label>
+            <Button title={loading==='editProfile'? 'Отмена':'Редактироввать'} width={'116.67px'} color={loading==='editProfile'?'#AFAFAF':''} zIndex={editButton} />
             </header>
-            <UserProfile/>
+            {profile === "Профиль пользоваетля"
+            ? <UserProfile disable={loading!=='editProfile'} state={state[0]}/>
+            :<>{usersCards}
+            <div className={style.totalUsers}>Найдено {state?.length} пользователей</div></>
+            }
 
-            {/*{usersCards}*/}
-            {/*<div className={style.totalUsers}>Найдено {state?.length} пользователей</div>*/}
+
         </div>
     )
 }

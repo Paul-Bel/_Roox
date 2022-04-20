@@ -11,8 +11,18 @@
   border: 1px solid transparent;
   margin: 9px 0 0 19px;
   letter-spacing: 0.065em;
+  cursor: pointer;
   &:active{
     border: 1px solid #BDBDBD;
     background-color: #0e51b3;
+  }
+  &:hover{
+    color: rgba(255, 255, 255, 0.82);
+  }
+  &:disabled {
+    background-color: #AFAFAF;
+    border-radius: 5px;
+    cursor: auto;
+    color: #FFFFFF;
   }
 }

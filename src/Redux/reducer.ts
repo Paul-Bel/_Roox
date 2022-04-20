@@ -32,10 +32,14 @@ type Set_Preload_AC_Type = ReturnType<typeof setLoadAC>
 type Open_Profile_AC_Type = ReturnType<typeof openProfileAC>
 type AC_Type = Set_Users_AC_Type | Set_Preload_AC_Type | Open_Profile_AC_Type
 
-type InitialStateType = { userData: Array<UsersStateType>, load: boolean, profileIsOpen: InfoUserType }
+export type FlagType = 'load' | 'editProfile' | 'loaded'
+type InitialStateType = {
+    userData: Array<UsersStateType>,
+    load: FlagType,
+    profileIsOpen: InfoUserType }
 const initialState: InitialStateType = {
     userData: [],
-    load: false,
+    load: 'load',
     profileIsOpen: "Список пользователей"
 }
 
@@ -46,21 +50,22 @@ const userReducer = (state: InitialStateType = initialState, action: AC_Type): I
         case  'Set_Load':
             return {...state, load: action.payload};
         case  'OpenProfile':
-            return {...state, profileIsOpen: action.payload};
+            return {...state, userData: state.userData.filter(us => us.id === action.payload.id),
+                profileIsOpen: action.payload.profile};
         default:
             return state;
     }
 }
 const setUsersAC = (payload: UsersStateType[]) => ({type: "Set_Users", payload} as const)
-const setLoadAC = (payload: boolean) => ({type: "Set_Load", payload} as const)
-export const openProfileAC = (payload: InfoUserType) => ({type: "OpenProfile", payload} as const)
+export const setLoadAC = (payload: FlagType) => ({type: "Set_Load", payload} as const)
+export const openProfileAC = (payload: {profile: InfoUserType, id: number}) => ({type: "OpenProfile", payload} as const)
 
 export const SetUsersTC = () => (dispatch: ThunkDispatch<AppStateType, unknown, AC_Type>) => {
-    dispatch(setLoadAC(true))
+    dispatch(setLoadAC('load'))
     usersAPI.getContacts()
         .then(res => dispatch(setUsersAC(res.data)))
         .catch(err => alert('try letter'))
-        .finally(() => dispatch(setLoadAC(false)))
+        .finally(() => dispatch(setLoadAC('loaded')))
 }
 
 

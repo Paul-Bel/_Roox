@@ -1,42 +1,46 @@
 import style from './UserProfile.module.scss'
 import {Button} from "../common/components/Button/Button";
+import {UsersStateType} from "../Redux/reducer";
+import React from "react";
 
-export const UserProfile = () => {
 
+type UserProfilePropsType = {
+    disable: boolean
+    state: UsersStateType
+}
+
+export const UserProfile = (props: UserProfilePropsType) => {
+    const userData = {...props.state}
+    let infoOfUser = [
+        {title: 'Name', nameInp: 'name', type: 'text', data: userData.name},
+        {title: 'User name', nameInp: 'user_name', type: 'text', data: userData.username},
+        {title: 'E-mail', nameInp: 'email', type: 'text', data: userData.email},
+        {title: 'Street', nameInp: 'street', type: 'text', data: userData.address.street},
+        {title: 'City', nameInp: 'city', type: 'text', data: userData.address.city},
+        {title: 'Zip code', nameInp: 'zip_code', type: 'number', data: userData.address.zipcode},
+        {title: 'Phone', nameInp: 'phone', type: 'number', data: userData.phone},
+        {title: 'Website', nameInp: 'website', type: 'url', data: userData.website},
+    ]
+    const disabled = props.disable
+
+    let InputData = infoOfUser.map(inp => {
+        return <label className={style.labelName}>{inp.title}<br/>
+
+                    <input value={inp.data}
+                        className={style.inputType} type={inp.type} name={inp.nameInp}
+                        required disabled={disabled}/>
+                </label>
+    })
     return (
-<div className={style.profileContainer}>
-    <form className={style.formContainer}>
-        <label className={style.labelName}>Name<br/>
-            <input className={style.inputType} disabled={false} value={"Test"}
-                   type="text" name={"Name"} required/></label>
-        <label className={style.labelName} >User name<br/>
-            <input className={style.inputType}
-                   type="text" name={"User name"} required/></label>
-        <label className={style.labelName}>E-mail<br/>
-            <input className={style.inputType}
-                   type="email" name={"name"} required/></label>
-        <label className={style.labelName}>Street<br/>
-            <input className={style.inputType}
-                   type="text" name={"Street"} required/></label>
-        <label className={style.labelName}>City<br/>
-            <input className={style.inputType}
-                   type="text" name={"City"} required/></label>
-        <label className={style.labelName}>Zip code<br/>
-            <input className={style.inputType}
-                   type="number" name={"Zip code"} required/></label>
-        <label className={style.labelName}>Phone<br/>
-            <input className={style.inputType}
-                   type="phone" name={"Phone"} required/></label>
-    <label className={style.labelName}>Website<br/>
-            <input className={style.inputType}
-                   type="url" name={"Website"} required/></label>
-
-<label>Comment<br/><textarea className={style.textAriaInput}/></label>
-
-    <Button title={'Отправить'} width={'85px'}/>
-
-    </form>
-</div>
+        <div className={style.profileContainer}>
+            <form className={style.formContainer}>
+                {InputData}
+                <label className={style.labelName}>Comment<br/><textarea className={style.textAriaInput}/></label>
+                <div className={style.button}>
+                    <Button title={disabled ? 'Назад':'Отправить'} width={'85px'} color={!disabled?'#52CF4F':'#AFAFAF'}/>
+                </div>
+            </form>
+        </div>
 
     )
 }
