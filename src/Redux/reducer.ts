@@ -30,16 +30,23 @@ export type InfoUserType = "Профиль пользоваетля" | "Спис
 type Set_Users_AC_Type = ReturnType<typeof setUsersAC>
 type Set_Preload_AC_Type = ReturnType<typeof setLoadAC>
 type Open_Profile_AC_Type = ReturnType<typeof openProfileAC>
-type AC_Type = Set_Users_AC_Type | Set_Preload_AC_Type | Open_Profile_AC_Type
+type Filter_City_AC_Type = ReturnType<typeof filterCityAC>
+type Filter_Company_AC_Type = ReturnType<typeof filterCompanyAC>
+type AC_Type = Set_Users_AC_Type | Set_Preload_AC_Type | Open_Profile_AC_Type | Filter_City_AC_Type | Filter_Company_AC_Type
 
-export type FlagType = 'load' | 'editProfile' | 'loaded'
-type InitialStateType = {
+export type FlagType = 'load' | 'editProfile' | 'loaded' | ''
+export type InitialStateType = {
     userData: Array<UsersStateType>,
     load: FlagType,
-    profileIsOpen: InfoUserType }
+    profileIsOpen: InfoUserType
+    sortCompany: boolean,
+    sortCity: boolean,
+}
 const initialState: InitialStateType = {
     userData: [],
     load: 'load',
+    sortCompany: true,
+    sortCity: true,
     profileIsOpen: "Список пользователей"
 }
 
@@ -50,15 +57,33 @@ const userReducer = (state: InitialStateType = initialState, action: AC_Type): I
         case  'Set_Load':
             return {...state, load: action.payload};
         case  'OpenProfile':
-            return {...state, userData: state.userData.filter(us => us.id === action.payload.id),
-                profileIsOpen: action.payload.profile};
+            return {
+                ...state, userData: state.userData.filter(us => us.id === action.payload.id),
+                profileIsOpen: action.payload.profile
+            };
+        case  'Filter_City': {
+            let sort = state.sortCity
+                ? state.userData.sort((a, b) => a.address.city > b.address.city ? 1 : a.address.city < b.address.city ? -1 : 0)
+                : state.userData.sort((a, b) => a.address.city > b.address.city ? 1 : a.address.city < b.address.city ? -1 : 0).reverse()
+            let flag = !state.sortCity
+            return {...state, userData: sort, sortCity: flag};
+        }
+            case  'Filter_Company':
+                let sort = state.sortCompany
+                ? state.userData.sort((a, b) => a.company.name > b.company.name ? 1 : a.company.name < b.company.name ? -1 : 0)
+                : state.userData.sort((a, b) => a.company.name > b.company.name ? 1 : a.company.name < b.company.name ? -1 : 0).reverse()
+                let flag = !state.sortCompany
+                return {...state, userData: sort, sortCompany: flag};
+
         default:
             return state;
     }
 }
 const setUsersAC = (payload: UsersStateType[]) => ({type: "Set_Users", payload} as const)
 export const setLoadAC = (payload: FlagType) => ({type: "Set_Load", payload} as const)
-export const openProfileAC = (payload: {profile: InfoUserType, id: number}) => ({type: "OpenProfile", payload} as const)
+export const openProfileAC = (payload: { profile: InfoUserType, id?: number }) => ({type: "OpenProfile",payload} as const)
+export const filterCityAC = () => ({type: "Filter_City"} as const)
+export const filterCompanyAC = () => ({type: "Filter_Company"} as const)
 
 export const SetUsersTC = () => (dispatch: ThunkDispatch<AppStateType, unknown, AC_Type>) => {
     dispatch(setLoadAC('load'))
