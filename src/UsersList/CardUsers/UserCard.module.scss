@@ -1,6 +1,14 @@
 @import "./src/common/styles/mixin";
-
+@keyframes move {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .cardContainer {
+  animation: 1s move;
   background: $borderColor;
   border-radius: 8px;
   display: flex;

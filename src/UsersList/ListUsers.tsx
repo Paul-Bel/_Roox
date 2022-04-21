@@ -24,7 +24,6 @@ export const ListUsers = () => {
     const editButton = profile === "Профиль пользоваетля" ? "0" : "-1"
     const addEditButton = (id: number) => dispatch(openProfileAC({profile: "Профиль пользоваетля", id}))
 
-
     // смена экранов по кликам кнопки
     const onClickHandler = (name?: string) => {
         if (name !== "Назад") {

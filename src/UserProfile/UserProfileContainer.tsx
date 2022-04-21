@@ -40,14 +40,13 @@ export const UserProfileContainer = (props: UserProfilePropsType) => {
     }, {} as InputsType)
     // сабмит формы
     const onSubmit: SubmitHandler<InputsType> = data => {
-        console.log('reactForm11', getValues())
+        console.log('Submit data', getValues())
         // рисуем алерт
         props.callback('submit')
     };
     const {register, handleSubmit, formState: {errors}, getValues} = useForm<InputsType>({
         defaultValues : {...defaultValue, }
     });
-
     return (
         <div className={style.profileContainer}>
             <form className={style.formContainer} onSubmit={handleSubmit(onSubmit)} id={'form'}>
@@ -63,7 +62,7 @@ export const UserProfileContainer = (props: UserProfilePropsType) => {
                 {!props.indicator && <AlertSuccess submit={getValues()} />}
                 <label className={style.labelName}>Comment<br/>
                     <textarea className={style.textAriaInput} disabled={disabled}
-                              {...register("textAria", {required: true, maxLength: 150})}
+                              {...register("textAria", {required: false, maxLength: 150})}
                     />
                 </label>
                 <div className={style.button}>
