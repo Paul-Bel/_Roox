@@ -1,10 +1,18 @@
 @import "./src/common/styles/mixin";
-
+@keyframes move {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.7;
+  }
+}
 label {
   @include Roboto(400, 8px, 9px);
 }
 
 .profileContainer {
+  animation: 1s move;
   background-color: $textColor;
   border: 1px solid $borderColor;
   box-sizing: border-box;

@@ -45,7 +45,7 @@ export const UserProfileContainer = (props: UserProfilePropsType) => {
         props.callback('submit')
     };
     const {register, handleSubmit, formState: {errors}, getValues} = useForm<InputsType>({
-        defaultValues : {...defaultValue, textAria: ''}
+        defaultValues : {...defaultValue, }
     });
 
     return (
@@ -62,7 +62,9 @@ export const UserProfileContainer = (props: UserProfilePropsType) => {
 
                 {!props.indicator && <AlertSuccess submit={getValues()} />}
                 <label className={style.labelName}>Comment<br/>
-                    <textarea className={style.textAriaInput} disabled={disabled} name={'textAria'} />
+                    <textarea className={style.textAriaInput} disabled={disabled}
+                              {...register("textAria", {required: true, maxLength: 150})}
+                    />
                 </label>
                 <div className={style.button}>
                     <Button title={disabled ? 'Назад' : 'Отправить'} width={'85px'}

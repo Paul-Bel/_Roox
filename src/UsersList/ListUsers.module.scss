@@ -1,6 +1,14 @@
 @import "./src/common/styles/mixin";
-
+@keyframes move {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .userContainer{
+  animation: 1s move;
   width: 77.14%;
   max-height: 1028px;
   background-color: $textColor;
