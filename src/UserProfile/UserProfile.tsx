@@ -1,27 +1,24 @@
 import style from './UserProfile.module.scss'
 import {Button} from "../common/components/Button/Button";
-import {UsersStateType} from "../Redux/reducer";
+import {FlagType, UsersStateType} from "../Redux/reducer";
 import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import {useForm, SubmitHandler} from "react-hook-form";
+import {AlertSuccess} from "./AlertSuccess";
 
-type EditeStateType = {name: string, title: string, nameInp: string, type: string, data: string}
+type EditeStateType = { name: string, title: string, nameInp: string, type: string, data: string }
 type UserProfilePropsType = {
     disable: boolean
     state: UsersStateType
-    callback: (name:string ) => void
+    callback: (name: string) => void
+    indicator: FlagType
 }
-
-type InputsType = {name: string, username: string, email: string, street: string,
-    city: string, zipcode: string, phone: string, website: string,};
+export type InputsType = {
+    name: string, username: string, email: string, street: string,
+    city: string, zipcode: string, phone: string, website: string, textAria: string
+};
 
 export const UserProfile = (props: UserProfilePropsType) => {
-    const { register, handleSubmit, watch, formState: { errors }, getValues } = useForm<InputsType>({
-        defaultValues: {
-            name: "",
-            username: "fhgvdsjh"
-        }
-    });
-    const onSubmit: SubmitHandler<InputsType> = data => console.log('reactForm',getValues());
+
 
     const userData = {...props.state}
     const [editUser, setEditUser] = useState<Array<EditeStateType>>([
@@ -33,42 +30,49 @@ export const UserProfile = (props: UserProfilePropsType) => {
         {name: 'zipcode', title: 'Zip code', nameInp: 'zip_code', type: 'text', data: userData.address.zipcode},
         {name: 'phone', title: 'Phone', nameInp: 'phone', type: 'text', data: userData.phone},
         {name: 'website', title: 'Website', nameInp: 'website', type: 'text', data: userData.website},])
-
-
+    const [submit, setSabmit] = useState<InputsType>()
+    //data for form
+    let defaultValue = editUser.reduce((acc, el) => {
+        acc[el.name as keyof InputsType] = el.data
+        return acc
+    }, {} as InputsType)
+    // console.log('defaultValue', defaultValue)
+    const onSubmit: SubmitHandler<InputsType> = data => {
+        setSabmit(data)
+        console.log('reactForm', getValues())
+        console.log('reactForm11', data)
+    };
+    const {register, handleSubmit, watch, formState: {errors}, getValues} = useForm<InputsType>({
+        defaultValues : {...defaultValue, textAria: ''}
+    });
+    //
     const disabled = props.disable
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>, name: string) => {
         setEditUser(editUser.map((el) => {
-            console.log('test',editUser)
             return el.name === name ? ({...el, data: e.currentTarget.value}) : el
         }))
     }
-    const sendHandler = (e: FormEvent<HTMLFormElement>) => {
-        let data = new FormData(e.currentTarget)
-        let state = editUser.filter(el => el.name)
-        console.log('submit', data)
-        e.preventDefault()
-        // console.log(JSON.parse(state))
-    }
+
     let InputData = editUser.map(inp => {
         return <label key={inp.name} className={style.labelName}>{inp.title}<br/>
-                    <input defaultValue={inp.data}
-                        className={style.inputType} type={inp.type}
-                        disabled={disabled} {...register(inp.name as keyof InputsType , { required: false, maxLength: 10 })}
-                        value={inp.data}
-                        onChange={(e)=>onChangeHandler(e, inp.name)}
-
-                    />
+            <input
+                className={style.inputType} style={errors[inp.name as keyof InputsType] && {border: '1px solid red'}}type={inp.type}
+                disabled={disabled} {...register(inp.name as keyof InputsType, {required: true, maxLength: 100})}
+            />
             {errors[inp.name as keyof InputsType] && <p>This field is required</p>}
-                </label>
+        </label>
     })
     return (
         <div className={style.profileContainer}>
             <form className={style.formContainer} onSubmit={handleSubmit(onSubmit)} id={'form'}>
                 {InputData}
-                <label className={style.labelName}>Comment<br/><textarea className={style.textAriaInput} disabled={disabled} name={'textAria'}/></label>
-                <div className={style.button} >
-                    <input type="submit" />
-                    <Button title={disabled ? 'Назад':'Отправить'} width={'85px'} color={!disabled?'#52CF4F':'#AFAFAF'} callback={props.callback}/>
+                {!props.indicator && <AlertSuccess submit={defaultValue} />}
+                <label className={style.labelName}>Comment<br/>
+                    <textarea className={style.textAriaInput} disabled={disabled} name={'textAria'} />
+                </label>
+                <div className={style.button}>
+                    <Button title={disabled ? 'Назад' : 'Отправить'} width={'85px'}
+                            color={!disabled ? '#52CF4F' : '#AFAFAF'} callback={props.callback}/>
                 </div>
             </form>
         </div>

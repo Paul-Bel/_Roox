@@ -3,7 +3,7 @@ import style from './App.module.scss';
 import {Provider} from "react-redux";
 import store from './Redux/store';
 import {FilterNav} from "./common/components/Filter/FilterNav";
-import {ListUsers} from "./List-of-users/ListUsers";
+import {ListUsers} from "./UsersList/ListUsers";
 
 function App() {
 

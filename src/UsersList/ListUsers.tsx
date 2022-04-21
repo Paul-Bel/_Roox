@@ -23,13 +23,22 @@ export const ListUsers = () => {
         dispatch(openProfileAC({profile: "Профиль пользоваетля", id}))
     }
     const onClickHandler = (name?: string) => {
-        if(name !== "Назад")
-        dispatch(setLoadAC((indicator !== 'editProfile' ? 'editProfile' : 'loaded')))
+        if (name !== "Назад")
+            dispatch(setLoadAC((indicator !== 'editProfile' ? 'editProfile' : 'loaded')))
 
-        if(name === "Назад"){
+        if (name === "Назад") {
             dispatch(openProfileAC({profile: "Список пользователей"}))
             dispatch(SetUsersTC())
         }
+        if (name === "Отправить") {
+            dispatch(setLoadAC(('')))
+            setTimeout(() => {
+                dispatch(openProfileAC({profile: "Список пользователей"}))
+                dispatch(SetUsersTC())
+            }, 1000)
+
+        }
+
     }
     const usersCards = state.userData?.map(user => {
         return <UserCard
@@ -48,7 +57,7 @@ export const ListUsers = () => {
             </header>
             {profile === "Профиль пользоваетля"
                 ?
-                <UserProfile disable={indicator !== 'editProfile'} state={state.userData[0]} callback={onClickHandler}/>
+                <UserProfile disable={indicator !== 'editProfile'} state={state.userData[0]} callback={onClickHandler} indicator={indicator}/>
                 : <>{usersCards}
                     <div className={style.totalUsers}>Найдено {state.userData?.length} пользователей</div>
                 </>
