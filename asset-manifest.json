@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/_Roox/static/css/main.e2ee35ae.css",
-    "main.js": "/_Roox/static/js/main.fbbc8315.js",
+    "main.css": "/_Roox/static/css/main.fdff1d39.css",
+    "main.js": "/_Roox/static/js/main.9b706a16.js",
     "static/js/787.39171690.chunk.js": "/_Roox/static/js/787.39171690.chunk.js",
     "index.html": "/_Roox/index.html",
-    "main.e2ee35ae.css.map": "/_Roox/static/css/main.e2ee35ae.css.map",
-    "main.fbbc8315.js.map": "/_Roox/static/js/main.fbbc8315.js.map",
+    "main.fdff1d39.css.map": "/_Roox/static/css/main.fdff1d39.css.map",
+    "main.9b706a16.js.map": "/_Roox/static/js/main.9b706a16.js.map",
     "787.39171690.chunk.js.map": "/_Roox/static/js/787.39171690.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e2ee35ae.css",
-    "static/js/main.fbbc8315.js"
+    "static/css/main.fdff1d39.css",
+    "static/js/main.9b706a16.js"
   ]
 }
