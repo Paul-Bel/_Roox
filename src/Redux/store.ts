@@ -9,8 +9,4 @@ const store: Store<AppStateType, any> = createStore(rootReducer, applyMiddleware
 
 export type AppStateType = ReturnType<typeof rootReducer>
 export type AppDispatch = typeof store.dispatch
-
 export default store
-
-// @ts-ignore
-window.store = store;

@@ -1,26 +1,25 @@
 import style from './Button.module.scss'
+import React from 'react'
 
-type ButtonPropsType = {
+interface ButtonPropsType extends React.HTMLAttributes<HTMLButtonElement> {
     title: string
     width: string
     zIndex?: string
-    disabled?: boolean
     color?: string
-    callback?: (title?: string) => void
+    callback?: (title: string) => void
 }
 
-export const Button = (props: ButtonPropsType) => {
-    const {title, width, color} = props
-    const zIndex = props.zIndex ? props.zIndex : '0'
-    let disabled = props.disabled ? props.disabled : false
+
+export const Button: React.FC<ButtonPropsType> = ({title, width, zIndex, color, callback, ...rest}) => {
+
     let id = title === 'Назад' ? 'Back' : 'Button'
     const onClickHandler = () => {
-      props.callback && props.callback(title)
+        callback && callback(title)
     }
     return <>
         <button className={style.buttonStyle} id={id}
-                style={{width:`${width}`, zIndex:`${zIndex}`, backgroundColor: `${color}`}}
-                disabled={disabled} onClick={onClickHandler}>
+                style={{width: `${width}`, zIndex: `${zIndex || 0}`, backgroundColor: `${color}`}}
+              onClick={onClickHandler}  {...rest}>
             {title}
         </button>
     </>

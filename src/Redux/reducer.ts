@@ -34,17 +34,17 @@ type Filter_City_AC_Type = ReturnType<typeof filterCityAC>
 type Filter_Company_AC_Type = ReturnType<typeof filterCompanyAC>
 type AC_Type = Set_Users_AC_Type | Set_Preload_AC_Type | Open_Profile_AC_Type | Filter_City_AC_Type | Filter_Company_AC_Type
 
-export type FlagType = 'load' | 'editProfile' | 'loaded' | ''
+export type FlagType = 'load' | 'editProfile' | 'loaded' | 'FilterCity' | 'FilterCompany' | ''
 export type InitialStateType = {
     userData: Array<UsersStateType>,
-    load: FlagType,
+    indicator: FlagType,
     profileIsOpen: InfoUserType
     sortCompany: boolean,
     sortCity: boolean,
 }
 const initialState: InitialStateType = {
     userData: [],
-    load: 'load',
+    indicator: 'load',
     sortCompany: true,
     sortCity: true,
     profileIsOpen: "Список пользователей"
@@ -55,26 +55,22 @@ const userReducer = (state: InitialStateType = initialState, action: AC_Type): I
         case 'Set_Users':
             return {...state, userData: action.payload};
         case  'Set_Load':
-            return {...state, load: action.payload};
+            return {...state, indicator: action.payload};
         case  'OpenProfile':
             return {
                 ...state, userData: state.userData.filter(us => us.id === action.payload.id),
                 profileIsOpen: action.payload.profile
             };
         case  'Filter_City': {
-            let sort = state.sortCity
-                ? state.userData.sort((a, b) => a.address.city > b.address.city ? 1 : a.address.city < b.address.city ? -1 : 0)
-                : state.userData.sort((a, b) => a.address.city > b.address.city ? 1 : a.address.city < b.address.city ? -1 : 0).reverse()
-            let flag = !state.sortCity
-            return {...state, userData: sort, sortCity: flag};
+            let sort = state.userData.sort((a, b) => a.address.city > b.address.city ? 1 : a.address.city < b.address.city ? -1 : 0)
+            let flag: FlagType = state.indicator === 'FilterCity' ? '' : 'FilterCity'
+            return {...state, userData: (state.indicator !== 'FilterCity' ? sort : sort.reverse()), indicator: flag};
         }
-            case  'Filter_Company':
-                let sort = state.sortCompany
-                ? state.userData.sort((a, b) => a.company.name > b.company.name ? 1 : a.company.name < b.company.name ? -1 : 0)
-                : state.userData.sort((a, b) => a.company.name > b.company.name ? 1 : a.company.name < b.company.name ? -1 : 0).reverse()
-                let flag = !state.sortCompany
-                return {...state, userData: sort, sortCompany: flag};
-
+            case  'Filter_Company': {
+                let sort = state.userData.sort((a, b) => a.company.name > b.company.name ? 1 : a.company.name < b.company.name ? -1 : 0)
+                let flag: FlagType = state.indicator === 'FilterCompany' ? '' : 'FilterCompany'
+                return {...state, userData: (state.indicator !== 'FilterCompany' ? sort : sort.reverse()), indicator: flag};
+            }
         default:
             return state;
     }
