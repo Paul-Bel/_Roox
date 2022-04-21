@@ -1,0 +1,39 @@
+@import "./src/common/styles/mixin";
+
+label {
+  @include Roboto(400, 8px, 9px);
+}
+
+.labelName {
+  margin: 8px 0 3px 2.5%;
+
+  .inputType {
+    background-color: $textColor;
+    border: 1px solid #D8D8D8;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-size: 10px;
+    line-height: 12px;
+    width: 211px;
+    height: 22px;
+    margin-top: 3px;
+    padding: 5.15px 0 5.15px 10px;
+
+
+    &:invalid {
+      border: 1px solid red;
+    }
+
+    &:disabled {
+      color: rgba(0, 0, 0, 0.3);
+    }
+
+    &:focus {
+      border: 1px solid #D8D8D8;
+      outline: white;
+
+    }
+
+  }
+
+}

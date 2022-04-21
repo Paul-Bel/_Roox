@@ -1,5 +1,5 @@
-import style from './UserProfile.module.scss'
-import {InputsType} from "./UserProfile";
+import style from './AlertSuccess.module.scss'
+import {InputsType} from "../../../UserProfile/UserProfileContainer";
 import {useEffect} from "react";
 
 type AlertSuccessType = {

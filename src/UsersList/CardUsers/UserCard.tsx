@@ -11,7 +11,7 @@ type UserCardPropsType = {
 export const UserCard = (props: UserCardPropsType) => {
     const {id, name, city, company, callback} = props
     const onClickHandler = (e: MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault()
+        e.preventDefault()
         callback(id)
     }
     return (

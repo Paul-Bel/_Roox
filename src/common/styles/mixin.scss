@@ -1,0 +1,18 @@
+@mixin Roboto($font-weight, $font-size, $line-height){
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: $font-weight;
+  font-size: $font-size;
+  line-height: $line-height;
+}
+@mixin flexColum{
+  display: flex;
+  flex-direction: column;
+}
+
+$textColor: #FFFFFF;
+$grayColor: #A3A3A3;
+$borderColor: #F3F3F3;
+$borderSecondColor: #D8D8D8;
+$bgFirstColor: #4e93e6;
+$bgColor: #FFFFFF;

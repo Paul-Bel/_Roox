@@ -1,4 +1,3 @@
-import {Dispatch} from "react"
 import {usersAPI} from "../API/api";
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./store";

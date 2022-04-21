@@ -1,13 +1,11 @@
+@import "./src/common/styles/mixin";
+
 .buttonStyle{
+  @include Roboto(400, 12px, 14px);
   height: 24.12px;
   background-color: #4B51EF;
   border-radius: 5px;
-  font-family: Roboto, serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  color: #FFFFFF;
+  color: $textColor;
   border: 1px solid transparent;
   margin: 9px 0 0 19px;
   letter-spacing: 0.065em;

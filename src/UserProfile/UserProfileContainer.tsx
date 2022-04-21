@@ -1,9 +1,10 @@
 import style from './UserProfile.module.scss'
 import {Button} from "../common/components/Button/Button";
 import {FlagType, UsersStateType} from "../Redux/reducer";
-import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
-import {useForm, SubmitHandler} from "react-hook-form";
-import {AlertSuccess} from "./AlertSuccess";
+import React from "react";
+import {SubmitHandler, useForm} from "react-hook-form";
+import {AlertSuccess} from "../common/components/Alert/AlertSuccess";
+import {Input} from "../common/components/Input/Input";
 
 type EditeStateType = { name: string, title: string, nameInp: string, type: string, data: string }
 type UserProfilePropsType = {
@@ -17,11 +18,12 @@ export type InputsType = {
     city: string, zipcode: string, phone: string, website: string, textAria: string
 };
 
-export const UserProfile = (props: UserProfilePropsType) => {
+export const UserProfileContainer = (props: UserProfilePropsType) => {
 
-
+    const disabled = props.disable
     const userData = {...props.state}
-    const [editUser, setEditUser] = useState<Array<EditeStateType>>([
+    //данные для отрисовки инпутов формы
+    const editUser: Array<EditeStateType> = [
         {name: 'name', title: 'Name', nameInp: 'name', type: 'text', data: userData.name},
         {name: 'username', title: 'User name', nameInp: 'user_name', type: 'text', data: userData.username},
         {name: 'email', title: 'E-mail', nameInp: 'email', type: 'text', data: userData.email},
@@ -29,44 +31,36 @@ export const UserProfile = (props: UserProfilePropsType) => {
         {name: 'city', title: 'City', nameInp: 'city', type: 'text', data: userData.address.city},
         {name: 'zipcode', title: 'Zip code', nameInp: 'zip_code', type: 'text', data: userData.address.zipcode},
         {name: 'phone', title: 'Phone', nameInp: 'phone', type: 'text', data: userData.phone},
-        {name: 'website', title: 'Website', nameInp: 'website', type: 'text', data: userData.website},])
-    const [submit, setSabmit] = useState<InputsType>()
-    //data for form
+        {name: 'website', title: 'Website', nameInp: 'website', type: 'text', data: userData.website},]
+
+    //даннык для дефолтного value формы инпутов
     let defaultValue = editUser.reduce((acc, el) => {
         acc[el.name as keyof InputsType] = el.data
         return acc
     }, {} as InputsType)
-    // console.log('defaultValue', defaultValue)
+    // сабмит формы
     const onSubmit: SubmitHandler<InputsType> = data => {
-        setSabmit(data)
-        console.log('reactForm', getValues())
-        console.log('reactForm11', data)
+        console.log('reactForm11', getValues())
+        // рисуем алерт
+        props.callback('submit')
     };
-    const {register, handleSubmit, watch, formState: {errors}, getValues} = useForm<InputsType>({
+    const {register, handleSubmit, formState: {errors}, getValues} = useForm<InputsType>({
         defaultValues : {...defaultValue, textAria: ''}
     });
-    //
-    const disabled = props.disable
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>, name: string) => {
-        setEditUser(editUser.map((el) => {
-            return el.name === name ? ({...el, data: e.currentTarget.value}) : el
-        }))
-    }
 
-    let InputData = editUser.map(inp => {
-        return <label key={inp.name} className={style.labelName}>{inp.title}<br/>
-            <input
-                className={style.inputType} style={errors[inp.name as keyof InputsType] && {border: '1px solid red'}}type={inp.type}
-                disabled={disabled} {...register(inp.name as keyof InputsType, {required: true, maxLength: 100})}
-            />
-            {errors[inp.name as keyof InputsType] && <p>This field is required</p>}
-        </label>
-    })
     return (
         <div className={style.profileContainer}>
             <form className={style.formContainer} onSubmit={handleSubmit(onSubmit)} id={'form'}>
-                {InputData}
-                {!props.indicator && <AlertSuccess submit={defaultValue} />}
+
+                {/*отрисовываем инпуты*/}
+
+                {editUser.map(el => <Input
+                    key={el.name} type={el.type} name={el.name} title={el.title} register={register}
+                    disabled={disabled} errors={!!errors[el.name as keyof InputsType]}/>)}
+
+                {/*алерт при успешном редактировании*/}
+
+                {!props.indicator && <AlertSuccess submit={getValues()} />}
                 <label className={style.labelName}>Comment<br/>
                     <textarea className={style.textAriaInput} disabled={disabled} name={'textAria'} />
                 </label>

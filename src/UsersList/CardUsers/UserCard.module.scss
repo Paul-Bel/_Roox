@@ -1,5 +1,7 @@
+@import "./src/common/styles/mixin";
+
 .cardContainer {
-  background: #F3F3F3;
+  background: $borderColor;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
@@ -10,32 +12,20 @@
 
   li{
     list-style-type: none;
-    font-family: Roboto, serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 11px;
-    line-height: 13px;
-    color: #A3A3A3;
+    @include Roboto(400, 11px, 13px);
+    color: $grayColor;
     height: 11px;
 
 
     .dataUser{
-      font-family: Roboto, serif;
-      font-style: normal;
-      font-weight: 400;
-      font-size: 11px;
-      line-height: 13px;
+      @include Roboto(400, 11px, 13px);
       color: #000000;
       padding-left: 11px;
 
     }
   }
   & a{
-    font-family: Roboto, serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 14px;
+    @include Roboto(400, 12px, 14px);
     color: #4B51EF;
     text-decoration: none;
     display: block;
@@ -44,8 +34,7 @@
     cursor: pointer;
   }
   & ul {
-    display: flex;
-    flex-direction: column;
+    @include flexColum;
     justify-content: space-around;
   }
 }
