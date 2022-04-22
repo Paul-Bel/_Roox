@@ -3,13 +3,25 @@ import {UserCard} from "./CardUsers/UserCard";
 import {Preloader} from "../common/Preloader/Preloader";
 import {useSelector} from "react-redux";
 import {AppStateType} from "../Redux/store";
-import {FlagType, InfoUserType, InitialStateType, openProfileAC, setLoadAC, SetUsersTC} from "../Redux/reducer";
+import {
+    ButtonNamesType,
+    FlagType,
+    InfoUserType,
+    InitialStateType,
+    openProfileAC,
+    setLoadAC,
+    SetUsersTC
+} from "../Redux/reducer";
 import {Button} from "../common/components/Button/Button";
 import {useAppDispatch} from "../Redux/hooks";
 import {UserProfileContainer} from "../UserProfile/UserProfileContainer";
 import React, {useEffect} from "react";
 
+const titleName = {user: "Профиль пользоваетеля", users: "Список пользователей"}
 export const ListUsers = () => {
+    const battonName = useSelector<AppStateType, ButtonNamesType>(store => store.users.buttonNames)
+    const {ButtonEdit, ButtonBack, ButtonSend, ButtonCancel} = battonName
+
     const dispatch = useAppDispatch()
     const state = useSelector<AppStateType, InitialStateType>(store => store.users)
     const indicator = useSelector<AppStateType, FlagType>(store => store.users.indicator)
@@ -21,24 +33,24 @@ export const ListUsers = () => {
     }, [])
 
     //отображение кнопки редактирования путем установки z-index
-    const editButton = profile === "Профиль пользоваетля" ? "0" : "-1"
-    const addEditButton = (id: number) => dispatch(openProfileAC({profile: "Профиль пользоваетля", id}))
+    const editButton = profile === titleName.user as InfoUserType ? "0" : "-1"
+    const addEditButton = (id: number) => dispatch(openProfileAC({profile: titleName.user as InfoUserType, id}))
 
     // смена экранов по кликам кнопки
     const onClickHandler = (name?: string) => {
-        if (name !== "Назад") {
+        if (name !== ButtonBack) {
             dispatch(setLoadAC((indicator !== 'editProfile' ? 'editProfile' : 'loaded')))
         }
 
-        if (name === "Назад") {
-            dispatch(openProfileAC({profile: "Список пользователей"}))
+        if (name === ButtonBack) {
+            dispatch(openProfileAC({profile: titleName.users as InfoUserType}))
             dispatch(SetUsersTC())
         }
 
-        if (name === "submit") {
+        if (name === ButtonSend) {
             dispatch(setLoadAC(('')))
             setTimeout(() => {
-                dispatch(openProfileAC({profile: "Список пользователей"}))
+                dispatch(openProfileAC({profile: titleName.users as InfoUserType}))
                 dispatch(SetUsersTC())
             }, 10000)
         }
@@ -57,13 +69,13 @@ export const ListUsers = () => {
         <div className={style.userContainer}>
             <header className={style.header}>
                 <label className={style.title} id={"title"}>{profile}</label>
-                <Button title={indicator === 'editProfile' ? 'Отмена' : 'Редактироввать'}
+                <Button title={indicator === 'editProfile' ? ButtonCancel : ButtonEdit}
                         width={'116.67px'} color={indicator === 'editProfile' ? '#AFAFAF' : ''}
                         zIndex={editButton} callback={onClickHandler}/>
             </header>
-            {profile === "Профиль пользоваетля"
+            {profile === titleName.user as InfoUserType
                 ? <UserProfileContainer disable={indicator !== 'editProfile'}
-                                        state={state.userData[0]}
+                                        state={state.userData[0]} ButtonName={{ButtonBack, ButtonSend}}
                                         callback={onClickHandler} indicator={indicator}/>
                 : <>
                     {usersCards}

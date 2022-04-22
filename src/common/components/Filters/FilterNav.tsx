@@ -1,17 +1,22 @@
 import style from './FilterNav.module.scss'
 import {Button} from "../Button/Button";
 import {useAppDispatch} from "../../../Redux/hooks";
-import {filterCityAC, filterCompanyAC} from "../../../Redux/reducer";
+import {ButtonNamesType, filterCityAC, filterCompanyAC, InitialStateType} from "../../../Redux/reducer";
+import {useSelector} from "react-redux";
+import {AppStateType} from "../../../Redux/store";
 
 type ButtonType = { id: number, title: string, width: string }
-const elementButton: ButtonType[] = [
-    {id: 1, title: 'по городу', width: '86.13px'},
-    {id: 2, title: 'по компании', width: '105.39px'}]
 
 export const FilterNav = () => {
+    const battonName = useSelector<AppStateType, ButtonNamesType>(store => store.users.buttonNames)
+    const {ButtonFindCity, ButtonFindCompany} = battonName
+    const elementButton: ButtonType[] = [
+        {id: 1, title: ButtonFindCity, width: '86.13px'},
+        {id: 2, title: ButtonFindCompany, width: '105.39px'}]
+
     const dispatch = useAppDispatch()
     //сортировка
-    const onClickHandler = (title: string) => (title === 'по городу') ? dispatch(filterCityAC()) : dispatch(filterCompanyAC())
+    const onClickHandler = (title: string) => (title === ButtonFindCity) ? dispatch(filterCityAC()) : dispatch(filterCompanyAC())
     const ButtonForFilter = elementButton
         .map((el) => <Button key={el.id} title={el.title} width={el.width} callback={onClickHandler}/>)
     return (

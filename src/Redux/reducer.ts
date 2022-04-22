@@ -25,7 +25,7 @@ export type UsersStateType = {
         bs: string
     }
 }
-export type InfoUserType = "Профиль пользоваетля" | "Список пользователей"
+export type InfoUserType = "Профиль пользоваетеля" | "Список пользователей"
 type Set_Users_AC_Type = ReturnType<typeof setUsersAC>
 type Set_Preload_AC_Type = ReturnType<typeof setLoadAC>
 type Open_Profile_AC_Type = ReturnType<typeof openProfileAC>
@@ -34,19 +34,25 @@ type Filter_Company_AC_Type = ReturnType<typeof filterCompanyAC>
 type AC_Type = Set_Users_AC_Type | Set_Preload_AC_Type | Open_Profile_AC_Type | Filter_City_AC_Type | Filter_Company_AC_Type
 
 export type FlagType = 'load' | 'editProfile' | 'loaded' | 'FilterCity' | 'FilterCompany' | ''
+export type ButtonNamesType =  {ButtonFindCity: string, ButtonFindCompany: string, ButtonEdit: string,
+    ButtonBack: string, ButtonSend: string, ButtonCancel: string}
 export type InitialStateType = {
     userData: Array<UsersStateType>,
     indicator: FlagType,
     profileIsOpen: InfoUserType
     sortCompany: boolean,
     sortCity: boolean,
+    buttonNames: ButtonNamesType
 }
 const initialState: InitialStateType = {
     userData: [],
     indicator: 'load',
     sortCompany: true,
     sortCity: true,
-    profileIsOpen: "Список пользователей"
+    profileIsOpen: "Список пользователей",
+    buttonNames: {
+        ButtonFindCity: 'по городу', ButtonFindCompany: 'по компании', ButtonEdit: 'Редактировать',
+        ButtonBack: 'Назад', ButtonSend: 'Отправить', ButtonCancel: 'Отмена'}
 }
 
 const userReducer = (state: InitialStateType = initialState, action: AC_Type): InitialStateType => {

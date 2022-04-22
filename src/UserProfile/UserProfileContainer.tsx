@@ -12,6 +12,7 @@ type UserProfilePropsType = {
     state: UsersStateType
     callback: (name: string) => void
     indicator: FlagType
+    ButtonName: {ButtonSend: string, ButtonBack: string}
 }
 export type InputsType = {
     name: string, username: string, email: string, street: string,
@@ -19,7 +20,7 @@ export type InputsType = {
 };
 
 export const UserProfileContainer = (props: UserProfilePropsType) => {
-
+    const {ButtonSend, ButtonBack} = props.ButtonName
     const disabled = props.disable
     const userData = {...props.state}
     //данные для отрисовки инпутов формы
@@ -42,7 +43,7 @@ export const UserProfileContainer = (props: UserProfilePropsType) => {
     const onSubmit: SubmitHandler<InputsType> = data => {
         console.log('Submit data', getValues())
         // рисуем алерт
-        props.callback('submit')
+        props.callback(ButtonSend)
     };
     const {register, handleSubmit, formState: {errors}, getValues} = useForm<InputsType>({
         defaultValues : {...defaultValue, }
@@ -66,7 +67,7 @@ export const UserProfileContainer = (props: UserProfilePropsType) => {
                     />
                 </label>
                 <div className={style.button}>
-                    <Button title={disabled ? 'Назад' : 'Отправить'} width={'85px'}
+                    <Button title={disabled ? ButtonBack : ButtonSend} width={'85px'}
                             color={!disabled ? '#52CF4F' : '#AFAFAF'} callback={props.callback}/>
                 </div>
             </form>
