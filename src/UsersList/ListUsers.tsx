@@ -19,8 +19,8 @@ import React, {useEffect} from "react";
 
 const titleName = {user: "Профиль пользоваетеля", users: "Список пользователей"}
 export const ListUsers = () => {
-    const battonName = useSelector<AppStateType, ButtonNamesType>(store => store.users.buttonNames)
-    const {ButtonEdit, ButtonBack, ButtonSend, ButtonCancel} = battonName
+    const buttonName = useSelector<AppStateType, ButtonNamesType>(store => store.users.buttonNames)
+    const {ButtonEdit, ButtonBack, ButtonSend, ButtonCancel} = buttonName
 
     const dispatch = useAppDispatch()
     const state = useSelector<AppStateType, InitialStateType>(store => store.users)
