@@ -19,9 +19,7 @@ import React, {useEffect} from "react";
 
 const titleName = {user: "Профиль пользоваетеля", users: "Список пользователей"}
 export const ListUsers = () => {
-    const buttonName = useSelector<AppStateType, ButtonNamesType>(store => store.users.buttonNames)
-    const {ButtonEdit, ButtonBack, ButtonSend, ButtonCancel} = buttonName
-
+    const {ButtonEdit, ButtonBack, ButtonSend, ButtonCancel} = useSelector<AppStateType, ButtonNamesType>(store => store.users.buttonNames)
     const dispatch = useAppDispatch()
     const state = useSelector<AppStateType, InitialStateType>(store => store.users)
     const indicator = useSelector<AppStateType, FlagType>(store => store.users.indicator)
@@ -47,12 +45,12 @@ export const ListUsers = () => {
             dispatch(SetUsersTC())
         }
 
-        if (name === ButtonSend) {
+        if (name === (ButtonSend+'send')) {
             dispatch(setLoadAC(('')))
             setTimeout(() => {
                 dispatch(openProfileAC({profile: titleName.users as InfoUserType}))
                 dispatch(SetUsersTC())
-            }, 10000)
+            }, 8000)
         }
     }
     // отрисовка карточек контактов

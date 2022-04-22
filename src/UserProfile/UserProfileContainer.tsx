@@ -43,7 +43,7 @@ export const UserProfileContainer = (props: UserProfilePropsType) => {
     const onSubmit: SubmitHandler<InputsType> = data => {
         console.log('Submit data', getValues())
         // рисуем алерт
-        props.callback(ButtonSend)
+        props.callback(ButtonSend+'send')
     };
     const {register, handleSubmit, formState: {errors}, getValues} = useForm<InputsType>({
         defaultValues : {...defaultValue, }
