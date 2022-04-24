@@ -60,7 +60,7 @@ export const UserProfileContainer = (props: UserProfilePropsType) => {
 
                 {/*алерт при успешном редактировании*/}
 
-                {!props.indicator && <AlertSuccess submit={getValues()} />}
+                {props.indicator === 'Send' && <AlertSuccess submit={getValues()} />}
                 <label className={style.labelName}>Comment<br/>
                     <textarea className={style.textAriaInput} disabled={disabled}
                               {...register("textAria", {required: false, maxLength: 150})}

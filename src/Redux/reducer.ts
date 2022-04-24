@@ -33,7 +33,7 @@ type Filter_City_AC_Type = ReturnType<typeof filterCityAC>
 type Filter_Company_AC_Type = ReturnType<typeof filterCompanyAC>
 type AC_Type = Set_Users_AC_Type | Set_Preload_AC_Type | Open_Profile_AC_Type | Filter_City_AC_Type | Filter_Company_AC_Type
 
-export type FlagType = 'load' | 'editProfile' | 'loaded' | 'FilterCity' | 'FilterCompany' | ''
+export type FlagType = 'load' | 'editProfile' | 'loaded' | 'FilterCity' | 'FilterCompany' | 'Send' | ''
 export type ButtonNamesType =  {ButtonFindCity: string, ButtonFindCompany: string, ButtonEdit: string,
     ButtonBack: string, ButtonSend: string, ButtonCancel: string}
 export type InitialStateType = {

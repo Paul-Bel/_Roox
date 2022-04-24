@@ -46,7 +46,7 @@ export const ListUsers = () => {
         }
 
         if (name === (ButtonSend+'send')) {
-            dispatch(setLoadAC(('')))
+            dispatch(setLoadAC(('Send')))
             setTimeout(() => {
                 dispatch(openProfileAC({profile: titleName.users as InfoUserType}))
                 dispatch(SetUsersTC())
